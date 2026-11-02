@@ -12,12 +12,12 @@
 /.turbo/
 /coverage/
 
-# Generated research export and local artifacts
+# Private working research and generated local artifacts
+/MY_PROFESSIONAL_PROFILE.md
 /output/
 
 # Environment files and secrets
 .env*
-!.env.example
 *.pem
 *.key
 

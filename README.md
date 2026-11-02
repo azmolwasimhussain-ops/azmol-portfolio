@@ -15,6 +15,12 @@ A dark editorial portfolio for Azmol Wasim Hussain, a frontend developer and Com
 - Downloadable, one-page PDF résumé at `/azmol-wasim-hussain-resume.pdf`.
 - Responsive navigation, keyboard-operable mobile menu, skip links, semantic page structure, page metadata, and generated Open Graph and Twitter images.
 
+## Screenshots
+
+The PlateProfit AI case study uses committed screenshots from the project repository. Other case-study artwork is labeled as illustration when no source screenshots were available.
+
+![PlateProfit AI dashboard showing ingredient and recipe cost summaries](public/projects/plateprofit/dashboard.webp)
+
 ## Selected projects
 
 | Project | Description | Links |

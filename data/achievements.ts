@@ -18,6 +18,19 @@ export type AchievementIcon =
   | "UsersRound"
   | "Zap";
 
+export type AchievementVisual =
+  | "stickers"
+  | "dev-badge"
+  | "pull-requests"
+  | "document-flow"
+  | "merge-path"
+  | "devcation-poster"
+  | "algoquest-path"
+  | "startup-poster"
+  | "scratch-terminal"
+  | "learning-record"
+  | "ai-network";
+
 export interface AchievementLink {
   label: string;
   href: string;
@@ -32,6 +45,7 @@ export interface Achievement {
   description: string;
   evidence: string;
   icon: AchievementIcon;
+  visual?: AchievementVisual;
   image?: string;
   imageAlt?: string;
   imageWidth?: number;
@@ -127,6 +141,7 @@ export const achievements: Achievement[] = [
       "Alongside the digital sticker book, I collected the physical sticker set, including holographic stickers.",
     evidence: "Participant-reported milestone",
     icon: "Sparkles",
+    visual: "stickers",
     links: [
       {
         label: "Hacktoberfest",
@@ -144,6 +159,7 @@ export const achievements: Achievement[] = [
       "The Hacktoberfest Completionist badge on DEV is part of Azmol's reported 2026 milestone. The linked profile is the public place to view the badge.",
     evidence: "Participant-reported milestone · DEV profile",
     icon: "Award",
+    visual: "dev-badge",
     links: [{ label: "View DEV profile", href: devProfile }],
   },
   {
@@ -156,6 +172,7 @@ export const achievements: Achievement[] = [
       "Merged browser fixes and features across navigation, tab behavior, accessible controls, keyboard shortcuts, and a Rust/SQLite memory and privacy layer.",
     evidence: "Merged pull requests",
     icon: "Code2",
+    visual: "pull-requests",
     links: [
       { label: "PR #59 · Memory and privacy", href: "https://github.com/Omnikon-Org/CNTRL/pull/59" },
       { label: "PR #44 · Keyboard shortcuts", href: "https://github.com/Omnikon-Org/CNTRL/pull/44" },
@@ -175,6 +192,7 @@ export const achievements: Achievement[] = [
       "Collaborated on PDF approval-note generation, bullet formatting, audit logging, and OCR/RAG document handling. Pull request #9 was merged into the team repository.",
     evidence: "Team project · merged pull request",
     icon: "UsersRound",
+    visual: "document-flow",
     links: [
       { label: "Merged pull request #9", href: "https://github.com/rwitankar-byte/HackDay_2026/pull/9" },
       { label: "HackDay project repository", href: "https://github.com/rwitankar-byte/HackDay_2026" },
@@ -194,6 +212,7 @@ export const achievements: Achievement[] = [
       "Contributed a Python wallet-generator script to Hacktoberfest 2025 and added a contributor entry to FirstLeaf. Both linked pull requests were merged.",
     evidence: "Two merged pull requests",
     icon: "Code2",
+    visual: "merge-path",
     links: [
       { label: "Hacktoberfest 2025 · PR #14", href: "https://github.com/Shizu-ka/Hacktoberfest-2025/pull/14" },
       { label: "FirstLeaf · PR #88", href: "https://github.com/Rohit-554/FirstLeaf/pull/88" },
@@ -209,6 +228,7 @@ export const achievements: Achievement[] = [
       "Participation certificate listed on Azmol's LinkedIn profile. No placement or award is stated here.",
     evidence: "LinkedIn-listed participation certificate",
     icon: "Zap",
+    visual: "devcation-poster",
     links: [{ label: "LinkedIn profile", href: linkedin }],
   },
   {
@@ -221,6 +241,7 @@ export const achievements: Achievement[] = [
       "Participation certificate listed on Azmol's LinkedIn profile. No competition placement is claimed.",
     evidence: "LinkedIn-listed participation certificate",
     icon: "Cpu",
+    visual: "algoquest-path",
     links: [{ label: "LinkedIn profile", href: linkedin }],
   },
   {
@@ -233,6 +254,7 @@ export const achievements: Achievement[] = [
       "Participation certificate listed on Azmol's LinkedIn profile. This gallery records participation only; no finalist or winner status has been verified.",
     evidence: "LinkedIn-listed participation certificate",
     icon: "UsersRound",
+    visual: "startup-poster",
     links: [{ label: "LinkedIn profile", href: linkedin }],
   },
   {
@@ -245,6 +267,7 @@ export const achievements: Achievement[] = [
       "Participation certificate listed on Azmol's LinkedIn profile. No placement or award is stated here.",
     evidence: "LinkedIn-listed participation certificate",
     icon: "Code2",
+    visual: "scratch-terminal",
     links: [{ label: "LinkedIn profile", href: linkedin }],
   },
   {
@@ -257,6 +280,7 @@ export const achievements: Achievement[] = [
       "Program certificate listed on Azmol's LinkedIn profile. Presented as a learning credential, not employment experience.",
     evidence: "LinkedIn-listed program certificate",
     icon: "GraduationCap",
+    visual: "learning-record",
     links: [{ label: "LinkedIn profile", href: linkedin }],
   },
   {
@@ -269,6 +293,7 @@ export const achievements: Achievement[] = [
       "AI learning certificate listed on Azmol's LinkedIn profile.",
     evidence: "LinkedIn-listed learning certificate",
     icon: "Cpu",
+    visual: "ai-network",
     links: [{ label: "LinkedIn profile", href: linkedin }],
   },
 ];

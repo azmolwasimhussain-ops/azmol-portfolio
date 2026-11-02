@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import {
+  ArrowRight,
   ArrowUpRight,
   Award,
   Code2,
   Cpu,
+  FileText,
   GraduationCap,
   Medal,
   Sparkles,
@@ -28,6 +30,8 @@ const iconByName: Record<AchievementIcon, LucideIcon> = {
   UsersRound,
   Zap,
 };
+
+const stickerIcons: LucideIcon[] = [Sparkles, Code2, Cpu, Zap, Award];
 
 function ExternalLink({ href, label, className = "" }: { href: string; label: string; className?: string }) {
   const external = href.startsWith("http");
@@ -74,14 +78,124 @@ function AchievementArtwork({
   }
 
   const Icon = iconByName[achievement.icon];
+  const artClass = `achievement-art achievement-art--illustration${achievement.visual ? ` achievement-art--${achievement.visual}` : " achievement-art--editorial"}`;
 
   return (
-    <div className="achievement-art achievement-art--illustration" aria-hidden="true">
-      <span className="achievement-art-index">{achievement.date}</span>
-      <span className="achievement-art-orbit achievement-art-orbit--one" />
-      <span className="achievement-art-orbit achievement-art-orbit--two" />
-      <span className="achievement-art-icon"><Icon size={31} strokeWidth={1.2} /></span>
-      <span className="achievement-art-caption">{achievement.organization}</span>
+    <div className={artClass} aria-hidden="true">
+      {achievement.visual === "stickers" && (
+        <>
+          <div className="achievement-art-masthead"><span>HACKTOBERFEST / 26</span><span>REWARD SET</span></div>
+          <div className="achievement-sticker-cluster">
+            {stickerIcons.map((StickerIcon, index) => (
+              <span className={`achievement-sticker achievement-sticker--${index + 1}`} key={index}>
+                <StickerIcon size={18} strokeWidth={1.5} />
+              </span>
+            ))}
+          </div>
+          <div className="achievement-art-footline"><span>PHYSICAL COLLECTION</span><span>HOLOGRAPHIC FINISH</span></div>
+        </>
+      )}
+
+      {achievement.visual === "dev-badge" && (
+        <>
+          <div className="achievement-art-masthead"><span>DEV COMMUNITY</span><span>2026</span></div>
+          <div className="achievement-dev-medal">
+            <div><small>DEV</small><Award size={24} strokeWidth={1.25} /><strong>COMPLETIONIST</strong></div>
+          </div>
+          <div className="achievement-art-footline"><span>HACKTOBERFEST</span><span>COMMUNITY BADGE</span></div>
+        </>
+      )}
+
+      {achievement.visual === "pull-requests" && (
+        <>
+          <div className="achievement-terminal-bar"><span className="achievement-terminal-dots"><i /><i /><i /></span><span>CNTRL / OPEN SOURCE</span><span>RUST · SOLIDJS</span></div>
+          <div className="achievement-terminal-body">
+            <p><span>azmol@cntrl</span> ~/merged-work</p>
+            <div className="achievement-terminal-stat"><strong>06</strong><span>MERGED<br />PULL REQUESTS</span></div>
+            <div className="achievement-terminal-command"><i>+</i> memory · privacy · tabs · a11y</div>
+          </div>
+        </>
+      )}
+
+      {achievement.visual === "document-flow" && (
+        <>
+          <div className="achievement-flow-heading"><span><FileText size={16} /> KARYALAYA AI</span><small>HACKDAY / 2026</small></div>
+          <div className="achievement-flow-steps">
+            <div><small>01</small><strong>PDF</strong></div><ArrowRight size={14} />
+            <div><small>02</small><strong>OCR + RAG</strong></div><ArrowRight size={14} />
+            <div><small>03</small><strong>Approval note</strong></div>
+          </div>
+          <div className="achievement-art-footline"><span>FOUR-PERSON TEAM</span><span>PR #9 MERGED</span></div>
+        </>
+      )}
+
+      {achievement.visual === "merge-path" && (
+        <>
+          <div className="achievement-art-masthead"><span>COMMUNITY WORK</span><span>OCT / 2025</span></div>
+          <div className="achievement-merge-path">
+            <div><i /><span>HACKTOBERFEST</span><b>PR #14</b></div>
+            <div><i /><span>FIRSTLEAF</span><b>PR #88</b></div>
+            <strong>02 <small>MERGED</small></strong>
+          </div>
+          <div className="achievement-art-footline"><span>OPEN SOURCE</span><span>SHARED REPOSITORIES</span></div>
+        </>
+      )}
+
+      {achievement.visual === "devcation-poster" && (
+        <>
+          <div className="achievement-poster-top"><span>UNSTOP PRESENTS</span><span>APR / 2026</span></div>
+          <div className="achievement-devcation-title">DEVCATION<span>HACK ’N’ SOLVE</span></div>
+          <div className="achievement-poster-bottom"><span>PARTICIPATION</span><i /><span>PROBLEM SOLVING / 01</span></div>
+        </>
+      )}
+
+      {achievement.visual === "algoquest-path" && (
+        <>
+          <div className="achievement-art-masthead"><span>NOESIS × UNSTOP</span><span>MAR / 2026</span></div>
+          <div className="achievement-algo-route"><b>ALGO<br />QUEST</b><div><i>01</i><span /><i>02</i><span /><i>03</i></div><small>CODE TREASUREHUNT</small></div>
+          <div className="achievement-art-footline"><span>PARTICIPATION</span><span>FOLLOW THE LOGIC</span></div>
+        </>
+      )}
+
+      {achievement.visual === "startup-poster" && (
+        <>
+          <div className="achievement-startup-label"><span>NATIONAL ONLINE HACKATHON</span><b>26</b></div>
+          <div className="achievement-startup-panel"><small>TRACK / 01</small><strong>STARTUP</strong><span>IDEAS INTO PRODUCTS</span></div>
+          <div className="achievement-art-footline"><span>UNSTOP</span><span>PARTICIPATION · MAR 2026</span></div>
+        </>
+      )}
+
+      {achievement.visual === "scratch-terminal" && (
+        <>
+          <div className="achievement-terminal-bar"><span className="achievement-terminal-dots"><i /><i /><i /></span><span>NOESIS / CODE ROOM</span><span>08 HOURS</span></div>
+          <div className="achievement-scratch-code"><span className="achievement-scratch-prompt">&gt;_</span><div><strong>SCRATCH THAT CODE</strong><small>BUILD / DEBUG / SHARE</small></div></div>
+          <div className="achievement-art-footline"><span>HACKATHON</span><span>PARTICIPATION · 2026</span></div>
+        </>
+      )}
+
+      {achievement.visual === "learning-record" && (
+        <>
+          <div className="achievement-learning-header"><span>DECODELABS</span><span>2026</span></div>
+          <div className="achievement-learning-sheet"><small>VIRTUAL PROGRAM</small><strong>Frontend<br />Development</strong><span><i /><i /><i /></span></div>
+          <div className="achievement-art-footline"><span>LEARNING RECORD</span><span>PROFILE-LISTED</span></div>
+        </>
+      )}
+
+      {achievement.visual === "ai-network" && (
+        <>
+          <div className="achievement-ai-heading"><span>TCS iON</span><span>AI FOR ALL</span></div>
+          <div className="achievement-ai-map">
+            <i className="achievement-ai-node achievement-ai-node--one" />
+            <i className="achievement-ai-node achievement-ai-node--two" />
+            <i className="achievement-ai-node achievement-ai-node--three" />
+            <i className="achievement-ai-node achievement-ai-node--four" />
+            <strong><Icon size={27} strokeWidth={1.35} /><small>YUVA AI</small></strong>
+          </div>
+          <div className="achievement-art-footline"><span>LEARNING</span><span>MAR / 2026</span></div>
+        </>
+      )}
+
+      {!achievement.visual && <span className="achievement-editorial-mark"><Icon size={31} strokeWidth={1.2} /></span>}
     </div>
   );
 }
@@ -127,14 +241,11 @@ function AchievementCard({
   onPreview: (achievement: Achievement) => void;
   index: number;
 }) {
-  const Icon = iconByName[achievement.icon];
-
   return (
     <Reveal className="achievement-card-wrap" delay={(index % 3) * 0.045}>
       <article className="achievement-card">
         <div className="achievement-card-art-wrap">
           <AchievementArtwork achievement={achievement} onPreview={onPreview} />
-          <span className="achievement-card-icon" aria-hidden="true"><Icon size={15} strokeWidth={1.5} /></span>
         </div>
         <div className="achievement-card-copy">
           <div className="achievement-card-topline">

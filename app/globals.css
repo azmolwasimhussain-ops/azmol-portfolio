@@ -89,17 +89,17 @@ img { display: block; }
 }
 .brand-mark { display: inline-flex; align-items: center; gap: 11px; min-width: 230px; }
 .brand-monogram {
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 36px;
   height: 36px;
-  place-items: center;
   border: 1px solid rgba(212, 191, 145, 0.54);
   border-radius: 50%;
   color: var(--accent-bright);
   font-family: var(--serif);
   font-size: 17px;
-  letter-spacing: -0.12em;
-  padding-right: 3px;
+  letter-spacing: -0.1em;
 }
 .brand-monogram span { font-style: italic; }
 .brand-wordmark { color: #dcd8ce; font-size: 10px; font-weight: 600; letter-spacing: 0.075em; line-height: 1.28; text-transform: uppercase; }

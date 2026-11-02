@@ -1,4 +1,4 @@
-import { ArrowUpRight, GitBranch } from "lucide-react";
+import { ArrowUpRight, BookOpen, GitBranch } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { ProjectVisual } from "@/components/project-visual";
 import { Reveal } from "@/components/reveal";
@@ -25,6 +25,11 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
           {project.technologies.map((technology) => <li key={technology}>{technology}</li>)}
         </ul>
         <div className="project-links">
+          {project.caseStudyHref && (
+            <a href={project.caseStudyHref}>
+              Case study<BookOpen size={13} />
+            </a>
+          )}
           {project.demo && (
             <a href={project.demo} target="_blank" rel="noreferrer">
               {project.demoLabel ?? "Live demo"}<ArrowUpRight size={14} />

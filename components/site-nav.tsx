@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
@@ -11,10 +12,12 @@ const links = [
 ];
 
 export function SiteNav() {
+  const pathname = usePathname();
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
+    if (pathname !== "/") return;
     const sections = ["home", ...links.map((link) => link.id)]
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => Boolean(section));
@@ -31,17 +34,26 @@ export function SiteNav() {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.classList.toggle("menu-is-open", menuOpen);
     return () => document.body.classList.remove("menu-is-open");
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
+
   return (
     <header className="site-header">
       <nav className="nav-shell mx-auto w-full" aria-label="Main navigation">
-        <a className="brand-mark" href="#home" aria-label="Azmol Wasim Hussain — home" onClick={() => setMenuOpen(false)}>
+        <a className="brand-mark" href={pathname === "/" ? "#home" : "/#home"} aria-label="Azmol Wasim Hussain — home" onClick={() => setMenuOpen(false)}>
           <span className="brand-monogram">A<span>W</span></span>
           <span className="brand-wordmark">Azmol Wasim<br />Hussain</span>
         </a>
@@ -50,7 +62,8 @@ export function SiteNav() {
           {links.map((link) => (
             <a
               className={`nav-link${active === link.id ? " is-active" : ""}`}
-              href={link.href}
+              href={pathname === "/" ? link.href : `/${link.href}`}
+              aria-current={active === link.id ? "location" : undefined}
               key={link.id}
               onClick={() => setActive(link.id)}
             >
@@ -62,7 +75,7 @@ export function SiteNav() {
 
         <div className="nav-actions">
           <span className="availability"><i aria-hidden="true" /> Open to opportunities</span>
-          <a className="nav-talk" href="#contact">Let&apos;s talk <ArrowUpRight size={14} /></a>
+          <a className="nav-talk" href={pathname === "/" ? "#contact" : "/#contact"}>Let&apos;s talk <ArrowUpRight size={14} /></a>
         </div>
 
         <button
@@ -88,11 +101,11 @@ export function SiteNav() {
             transition={{ duration: 0.18 }}
           >
             {links.map((link, index) => (
-              <a href={link.href} key={link.id} onClick={() => { setActive(link.id); setMenuOpen(false); }}>
+              <a href={pathname === "/" ? link.href : `/${link.href}`} key={link.id} onClick={() => { setActive(link.id); setMenuOpen(false); }}>
                 <span>0{index + 1}</span>{link.label}<ArrowUpRight size={16} />
               </a>
             ))}
-            <div className="mobile-menu-bottom"><span className="availability"><i aria-hidden="true" /> Open to opportunities</span><a href="#contact" onClick={() => setMenuOpen(false)}>Let&apos;s talk <ArrowUpRight size={14} /></a></div>
+            <div className="mobile-menu-bottom"><span className="availability"><i aria-hidden="true" /> Open to opportunities</span><a href={pathname === "/" ? "#contact" : "/#contact"} onClick={() => setMenuOpen(false)}>Let&apos;s talk <ArrowUpRight size={14} /></a></div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -9,6 +9,7 @@ export type Project = {
   repo: string;
   demo?: string;
   demoLabel?: string;
+  caseStudyHref?: string;
   featured?: boolean;
 };
 
@@ -20,11 +21,12 @@ export const projects: Project[] = [
     description: "A study partner that turns course material into a clearer next step.",
     detail:
       "A document-grounded learning tool with question answering, quizzes, and study plans. Its project write-up describes a retrieval-augmented flow with Gemma 2 2B through Ollama.",
-    technologies: ["Next.js", "TypeScript", "RAG", "Ollama"],
+    technologies: ["Next.js", "React", "TypeScript", "Ollama"],
     visual: "study",
     repo: "https://github.com/azmolwasimhussain-ops/StudyMate",
     demo: "https://study-mate-one-psi.vercel.app/",
     demoLabel: "Live demo",
+    caseStudyHref: "/projects/studymate",
     featured: true,
   },
   {
@@ -34,11 +36,12 @@ export const projects: Project[] = [
     description: "An AI nature companion designed to get people away from the screen.",
     detail:
       "Generates outdoor missions with Ollama or a built-in fallback, then keeps a personal field journal in IndexedDB. The project is packaged as a progressive web app.",
-    technologies: ["Next.js", "TypeScript", "Ollama", "IndexedDB"],
+    technologies: ["React", "TypeScript", "Vite", "Ollama", "IndexedDB"],
     visual: "terra",
     repo: "https://github.com/azmolwasimhussain-ops/TerraMind",
     demo: "https://terra-mind-lqvd.vercel.app/",
     demoLabel: "Live demo",
+    caseStudyHref: "/projects/terramind",
     featured: true,
   },
   {
@@ -48,11 +51,12 @@ export const projects: Project[] = [
     description: "An Indian-cuisine nutrition explorer built around a simple scan flow.",
     detail:
       "A React and TypeScript application for photo or text input, estimated nutrition, ingredients, allergen flags, and scan history, with Gemini API integration described in the repository.",
-    technologies: ["React", "TypeScript", "Vite", "Gemini"],
+    technologies: ["React", "TypeScript", "Vite", "Gemini", "Recharts"],
     visual: "nutri",
     repo: "https://github.com/azmolwasimhussain-ops/NutriScan-AI",
     demo: "https://nutri-scan-ai-zeta.vercel.app/",
     demoLabel: "Live demo",
+    caseStudyHref: "/projects/nutriscan-ai",
     featured: true,
   },
   {
@@ -94,5 +98,6 @@ export const projects: Project[] = [
     repo: "https://github.com/azmolwasimhussain-ops/PlateProfit-AI",
     demo: "https://plate-profit-ai-8fek.vercel.app/",
     demoLabel: "Project preview",
+    caseStudyHref: "/projects/plateprofit-ai",
   },
 ];

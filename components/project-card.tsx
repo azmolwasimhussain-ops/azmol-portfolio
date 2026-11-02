@@ -1,11 +1,22 @@
+"use client";
+
 import { ArrowUpRight, BookOpen, GitBranch } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { ProjectVisual } from "@/components/project-visual";
 import { Reveal } from "@/components/reveal";
+import { useTechnologyFilter } from "@/components/technology-filter";
 
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const { selectedTechnology } = useTechnologyFilter();
+  const matchesTechnology = selectedTechnology
+    ? project.technologies.some((technology) => technology.toLowerCase() === selectedTechnology.toLowerCase())
+    : false;
+  const filterClass = selectedTechnology
+    ? matchesTechnology ? " project-card--matched" : " project-card--dimmed"
+    : "";
+
   return (
-    <Reveal className={`project-card${project.featured ? " project-card--featured" : ""}`} delay={index % 2 ? 0.08 : 0}>
+    <Reveal className={`project-card${project.featured ? " project-card--featured" : ""}${filterClass}`} delay={index % 2 ? 0.08 : 0}>
       <a
         className="project-art-link"
         href={project.demo ?? project.repo}

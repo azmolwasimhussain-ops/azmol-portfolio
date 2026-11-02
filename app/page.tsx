@@ -12,12 +12,14 @@ import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
 import { HeroCopy } from "@/components/hero-copy";
 import { GithubActivity } from "@/components/github-activity";
+import { TechnologyFilterProvider, TechnologyFilterStatus, TechnologyPill } from "@/components/technology-filter";
 import { cntrlPullRequests, otherMergedContributions } from "@/data/contributions";
+import { currentlyBuilding } from "@/data/currently-building";
 import { projects } from "@/data/projects";
 
 const skillGroups = [
   {
-    label: "Interface craft",
+    label: "Interface Craft",
     note: "The layer I keep coming back to.",
     skills: ["React", "TypeScript", "Next.js", "JavaScript", "Tailwind CSS", "HTML & CSS", "Vite"],
   },
@@ -27,7 +29,7 @@ const skillGroups = [
     skills: ["Ollama", "Gemini", "RAG", "OpenRouter", "Hugging Face", "Local AI patterns"],
   },
   {
-    label: "Beyond the screen",
+    label: "Beyond the Screen",
     note: "Tools explored across projects and contributions.",
     skills: ["Python", "FastAPI", "Node.js", "IndexedDB", "CesiumJS", "Three.js", "WebGL"],
   },
@@ -38,6 +40,7 @@ export default function HomePage() {
     <>
       <a className="skip-link" href="#main">Skip to content</a>
       <SiteNav />
+      <TechnologyFilterProvider>
       <main id="main">
         <section className="hero-section page-gutter" id="home" aria-labelledby="hero-title">
           <div className="hero-grid-wrap mx-auto w-full">
@@ -64,9 +67,9 @@ export default function HomePage() {
                 <div className="about-stamp" aria-hidden="true"><span>STAY<br />CURIOUS</span><i>✳</i></div>
               </Reveal>
               <Reveal className="about-story" delay={0.08}>
-                <p className="about-lead">I&apos;m a frontend developer and Computer Science and Engineering student at Newton School of Technology. I focus on modern web engineering with React, Next.js, and TypeScript; applied AI is a growing interest I bring into product work.</p>
-                <p>My projects bring interface craft together with practical engineering — from a document-aware study companion to a local-model nature app and an interactive ocean-data concept. I&apos;m interested in expressive interfaces, clear product flows, and the small decisions that make technology easier to use.</p>
-                <p>Alongside these projects, I&apos;ve contributed merged changes to Omnikon&apos;s CNTRL browser and collaborated on Karyalaya AI for HackDay 2026. Those experiences have made me value clear communication as much as clean code.</p>
+                <p className="about-lead">I&apos;m a Computer Science and Engineering student at Newton School of Technology and a frontend developer. I build modern web experiences with React, Next.js, and TypeScript, and I&apos;m exploring applied AI alongside that work.</p>
+                <p>I like making useful product flows feel clear and considered. My projects include a document-aware study companion, an offline-first nature app, a food-analysis interface, and an ocean-data visualization concept.</p>
+                <p>Open source is another way I learn. I&apos;ve had six pull requests merged into the CNTRL browser and collaborated with a four-person team on Karyalaya AI for HackDay 2026.</p>
                 <a className="text-link" href="https://www.linkedin.com/in/azmol-wasim-hussain-404778376/" target="_blank" rel="noreferrer">A little more on LinkedIn <ArrowUpRight size={14} /></a>
               </Reveal>
             </div>
@@ -91,22 +94,47 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="building-section section-shell page-gutter" id="currently-building" aria-labelledby="building-title">
+          <div className="section-inner mx-auto w-full">
+            <div className="section-topline"><span>03 — CURRENTLY BUILDING</span><span>ONE THING AT A TIME</span></div>
+            <Reveal className="building-row">
+              <div className="building-status"><i aria-hidden="true" />{currentlyBuilding.status}</div>
+              <div className="building-copy">
+                <p className="section-kicker">CURRENT FOCUS</p>
+                <h2 id="building-title">{currentlyBuilding.name}<span>.</span></h2>
+                <p>{currentlyBuilding.description}</p>
+              </div>
+              <div className="building-details">
+                <ul aria-label="Current project technologies">
+                  {currentlyBuilding.technologies.map((technology) => <li key={technology}>{technology}</li>)}
+                </ul>
+                <a href={currentlyBuilding.githubUrl} target="_blank" rel="noreferrer">Follow the work on GitHub <ArrowUpRight size={14} /></a>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
         <GithubActivity />
 
         <section className="skills-section section-shell page-gutter" id="skills" aria-labelledby="skills-title">
           <div className="section-inner mx-auto w-full">
-            <div className="section-topline"><span>04 — TOOLKIT</span><span>LEARN BY MAKING</span></div>
+            <div className="section-topline"><span>05 — TOOLKIT</span><span>LEARN BY MAKING</span></div>
             <div className="skills-layout">
               <Reveal className="skills-heading">
                 <p className="section-kicker">TOOLS I REACH FOR</p>
                 <h2 id="skills-title">A toolkit that&apos;s <em>always growing.</em></h2>
                 <p>These are technologies I&apos;ve used across projects and open-source work — a map of what I build with, not a scorecard.</p>
+                <TechnologyFilterStatus />
               </Reveal>
               <div className="skill-groups">
                 {skillGroups.map((group, index) => (
                   <Reveal className="skill-group" delay={index * 0.06} key={group.label}>
                     <div className="skill-group-head"><span>0{index + 1}</span><div><h3>{group.label}</h3><p>{group.note}</p></div><ArrowUpRight size={15} /></div>
-                    <ul>{group.skills.map((skill) => <li key={skill}>{skill}</li>)}</ul>
+                    <ul>{group.skills.map((skill) => (
+                      <li key={skill}>
+                        <TechnologyPill technology={skill} projectCount={projects.filter((project) => project.technologies.some((technology) => technology.toLowerCase() === skill.toLowerCase())).length} />
+                      </li>
+                    ))}</ul>
                   </Reveal>
                 ))}
               </div>
@@ -116,7 +144,7 @@ export default function HomePage() {
 
         <section className="contribution-section section-shell page-gutter" id="contributions" aria-labelledby="contributions-title">
           <div className="section-inner mx-auto w-full">
-            <div className="section-topline"><span>05 — CONTRIBUTIONS</span><span>GOOD WORK IS SHARED WORK</span></div>
+            <div className="section-topline"><span>06 — CONTRIBUTIONS</span><span>GOOD WORK IS SHARED WORK</span></div>
             <div className="contribution-heading">
               <Reveal><p className="section-kicker">OPEN SOURCE &amp; COLLABORATION</p><h2 id="contributions-title">A few meaningful <em>merges.</em></h2></Reveal>
               <Reveal className="contribution-intro" delay={0.08}><p>Outside my own projects, I&apos;ve learned by stepping into larger codebases and helping a team move forward.</p></Reveal>
@@ -172,7 +200,7 @@ export default function HomePage() {
 
         <section className="contact-section section-shell page-gutter" id="contact" aria-labelledby="contact-title">
           <div className="contact-inner mx-auto w-full">
-            <div className="section-topline"><span>06 — YOUR TURN</span><span>OPEN TO WHAT&apos;S NEXT</span></div>
+            <div className="section-topline"><span>07 — YOUR TURN</span><span>OPEN TO WHAT&apos;S NEXT</span></div>
             <Reveal className="contact-main">
               <span className="contact-orb" aria-hidden="true"><span>✳</span></span>
               <p className="section-kicker">HAVE A GOOD ONE IN MIND?</p>
@@ -188,6 +216,7 @@ export default function HomePage() {
           </div>
         </section>
       </main>
+      </TechnologyFilterProvider>
 
       <footer className="site-footer page-gutter">
         <div className="footer-inner mx-auto w-full">

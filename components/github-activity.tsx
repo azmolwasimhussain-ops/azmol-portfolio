@@ -62,28 +62,31 @@ function ContributionCalendar({ calendar }: { calendar: NonNullable<Activity["ca
   );
 }
 
-function RepositoryList({ title, repositories }: { title: string; repositories: PublicRepository[] }) {
-  if (repositories.length === 0) return null;
+function RepositoryList({ title, repositories, available }: { title: string; repositories: PublicRepository[]; available: boolean }) {
   return (
     <div className="github-repository-group">
       <div className="github-subheading"><h3>{title}</h3><span>{String(repositories.length).padStart(2, "0")}</span></div>
-      <ul>
-        {repositories.map((repository) => (
-          <li key={repository.url}>
-            <a href={repository.url} target="_blank" rel="noreferrer">
-              <span className="github-repository-copy">
-                <strong>{repository.name}</strong>
-                <small>{repository.description || (repository.language ? `${repository.language} repository` : "Public GitHub repository")}</small>
-              </span>
-              <span className="github-repository-meta">
-                {repository.language && <span>{repository.language}</span>}
-                <ArrowUpRight size={14} />
-              </span>
-            </a>
-            {title === "Recently updated" && <time dateTime={repository.updatedAt}>Updated {formatUpdatedAt(repository.updatedAt)}</time>}
-          </li>
-        ))}
-      </ul>
+      {repositories.length > 0 ? (
+        <ul>
+          {repositories.map((repository) => (
+            <li key={repository.url}>
+              <a href={repository.url} target="_blank" rel="noreferrer">
+                <span className="github-repository-copy">
+                  <strong>{repository.name}</strong>
+                  <small>{repository.description || (repository.language ? `${repository.language} repository` : "Public GitHub repository")}</small>
+                </span>
+                <span className="github-repository-meta">
+                  {repository.language && <span>{repository.language}</span>}
+                  <ArrowUpRight size={14} />
+                </span>
+              </a>
+              {title === "Recently updated" && <time dateTime={repository.updatedAt}>Updated {formatUpdatedAt(repository.updatedAt)}</time>}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="github-list-empty">{available ? "No repositories to show in this list." : "This repository list could not be loaded."}</p>
+      )}
     </div>
   );
 }
@@ -91,6 +94,7 @@ function RepositoryList({ title, repositories }: { title: string; repositories: 
 export function GithubActivity() {
   const [activity, setActivity] = useState<Activity | null>(null);
   const [loading, setLoading] = useState(true);
+  const [requestAttempt, setRequestAttempt] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -107,7 +111,12 @@ export function GithubActivity() {
         if (!controller.signal.aborted) setLoading(false);
       });
     return () => controller.abort();
-  }, []);
+  }, [requestAttempt]);
+
+  function retry() {
+    setLoading(true);
+    setRequestAttempt((attempt) => attempt + 1);
+  }
 
   const hasContent = activity?.available && Boolean(
     activity.profile || activity.pinnedRepos.length || activity.recentRepos.length || activity.calendar,
@@ -116,7 +125,7 @@ export function GithubActivity() {
   return (
     <section className="github-section section-shell page-gutter" id="github-activity" aria-labelledby="github-title">
       <div className="section-inner mx-auto w-full">
-        <div className="section-topline"><span>03 — IN THE OPEN</span><span>LIVE PUBLIC GITHUB DATA</span></div>
+        <div className="section-topline"><span>04 — IN THE OPEN</span><span>LIVE PUBLIC GITHUB DATA</span></div>
         <div className="github-heading-row">
           <Reveal>
             <p className="section-kicker">A WORK IN PROGRESS, IN PUBLIC</p>
@@ -129,7 +138,7 @@ export function GithubActivity() {
         </div>
 
         {loading ? (
-          <div className="github-loading" aria-busy="true" aria-label="Loading public GitHub activity">
+          <div className="github-loading" aria-busy="true" aria-label="Loading public GitHub activity" role="status">
             <span /><span /><span />
           </div>
         ) : hasContent && activity ? (
@@ -141,17 +150,21 @@ export function GithubActivity() {
                 <a className="github-profile-link" href={activity.profile?.url ?? "https://github.com/azmolwasimhussain-ops"} target="_blank" rel="noreferrer"><GitBranch size={16} /> Visit profile <ArrowUpRight size={14} /></a>
               </div>
               {activity.calendar ? <ContributionCalendar calendar={activity.calendar} /> : <p className="github-partial-note">The contribution calendar could not be loaded right now.</p>}
+              {Object.values(activity.sourceStatus).some((sourceAvailable) => !sourceAvailable) && (
+                <p aria-live="polite" className="github-partial-note">Some GitHub data is missing from this refresh. <button className="github-retry" onClick={retry} type="button">Try again</button></p>
+              )}
               <p className="github-live-note">Fetched from public GitHub endpoints. This view may be temporarily incomplete if GitHub is unavailable.</p>
             </div>
             <aside className="github-repositories" aria-label="Public repositories">
-              <RepositoryList title="Pinned projects" repositories={activity.pinnedRepos} />
-              <RepositoryList title="Recently updated" repositories={activity.recentRepos} />
+              <RepositoryList title="Pinned projects" repositories={activity.pinnedRepos} available={activity.sourceStatus.pinned && activity.sourceStatus.repositories} />
+              <RepositoryList title="Recently updated" repositories={activity.recentRepos} available={activity.sourceStatus.repositories} />
             </aside>
           </div>
         ) : (
-          <div className="github-fallback">
+          <div aria-live="polite" className="github-fallback" role="status">
             <span><GitBranch size={20} /> PUBLIC ACTIVITY TEMPORARILY UNAVAILABLE</span>
             <p>GitHub did not return activity data just now. The profile and project links are still available directly.</p>
+            <button className="github-retry" onClick={retry} type="button">Try again</button>
             <a href="https://github.com/azmolwasimhussain-ops" target="_blank" rel="noreferrer">View GitHub profile <ArrowUpRight size={14} /></a>
           </div>
         )}

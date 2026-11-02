@@ -2,22 +2,36 @@ import type { Metadata, Viewport } from "next";
 import { MotionProvider } from "@/components/motion-provider";
 import "./globals.css";
 
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+const vercelHost = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
+const metadataBase = configuredSiteUrl
+  ? new URL(configuredSiteUrl)
+  : vercelHost
+    ? new URL(`https://${vercelHost.replace(/^https?:\/\//, "")}`)
+    : undefined;
+
 export const metadata: Metadata = {
-  title: "Azmol Wasim Hussain — Frontend Developer & Applied AI",
+  ...(metadataBase ? { metadataBase } : {}),
+  title: {
+    default: "Azmol Wasim Hussain — Frontend Developer",
+    template: "%s | Azmol Wasim Hussain",
+  },
   description:
-    "Azmol Wasim Hussain is a Computer Science and Engineering student building thoughtful web experiences with React, TypeScript, Next.js, and applied AI.",
+    "Azmol Wasim Hussain is a frontend developer and Computer Science student building modern web experiences with React, Next.js, and TypeScript, with an additional interest in applied AI.",
   applicationName: "Azmol Wasim Hussain — Portfolio",
   openGraph: {
-    title: "Azmol Wasim Hussain — Frontend Developer & Applied AI",
+    title: "Azmol Wasim Hussain — Frontend Developer",
     description:
-      "Thoughtful interfaces, useful AI, and the projects behind them.",
+      "Modern web engineering with React, Next.js, and TypeScript, plus an interest in applied AI.",
+    siteName: "Azmol Wasim Hussain",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Azmol Wasim Hussain — Frontend Developer & Applied AI",
+    title: "Azmol Wasim Hussain — Frontend Developer",
     description:
-      "Thoughtful interfaces, useful AI, and the projects behind them.",
+      "Modern web engineering with React, Next.js, and TypeScript, plus an interest in applied AI.",
   },
 };
 

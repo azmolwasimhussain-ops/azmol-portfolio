@@ -14,7 +14,6 @@ import { HeroCopy } from "@/components/hero-copy";
 import { GithubActivity } from "@/components/github-activity";
 import { TechnologyFilterProvider, TechnologyFilterStatus, TechnologyPill } from "@/components/technology-filter";
 import { cntrlPullRequests, otherMergedContributions } from "@/data/contributions";
-import { currentlyBuilding } from "@/data/currently-building";
 import { projects } from "@/data/projects";
 
 const skillGroups = [
@@ -94,31 +93,11 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="building-section section-shell page-gutter" id="currently-building" aria-labelledby="building-title">
-          <div className="section-inner mx-auto w-full">
-            <div className="section-topline"><span>03 — CURRENTLY BUILDING</span><span>ONE THING AT A TIME</span></div>
-            <Reveal className="building-row">
-              <div className="building-status"><i aria-hidden="true" />{currentlyBuilding.status}</div>
-              <div className="building-copy">
-                <p className="section-kicker">CURRENT FOCUS</p>
-                <h2 id="building-title">{currentlyBuilding.name}<span>.</span></h2>
-                <p>{currentlyBuilding.description}</p>
-              </div>
-              <div className="building-details">
-                <ul aria-label="Current project technologies">
-                  {currentlyBuilding.technologies.map((technology) => <li key={technology}>{technology}</li>)}
-                </ul>
-                <a href={currentlyBuilding.githubUrl} target="_blank" rel="noreferrer">Follow the work on GitHub <ArrowUpRight size={14} /></a>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
         <GithubActivity />
 
         <section className="skills-section section-shell page-gutter" id="skills" aria-labelledby="skills-title">
           <div className="section-inner mx-auto w-full">
-            <div className="section-topline"><span>05 — TOOLKIT</span><span>LEARN BY MAKING</span></div>
+            <div className="section-topline"><span>04 — TOOLKIT</span><span>LEARN BY MAKING</span></div>
             <div className="skills-layout">
               <Reveal className="skills-heading">
                 <p className="section-kicker">TOOLS I REACH FOR</p>
@@ -144,7 +123,7 @@ export default function HomePage() {
 
         <section className="contribution-section section-shell page-gutter" id="contributions" aria-labelledby="contributions-title">
           <div className="section-inner mx-auto w-full">
-            <div className="section-topline"><span>06 — CONTRIBUTIONS</span><span>GOOD WORK IS SHARED WORK</span></div>
+            <div className="section-topline"><span>05 — CONTRIBUTIONS</span><span>GOOD WORK IS SHARED WORK</span></div>
             <div className="contribution-heading">
               <Reveal><p className="section-kicker">OPEN SOURCE &amp; COLLABORATION</p><h2 id="contributions-title">A few meaningful <em>merges.</em></h2></Reveal>
               <Reveal className="contribution-intro" delay={0.08}><p>Outside my own projects, I&apos;ve learned by stepping into larger codebases and helping a team move forward.</p></Reveal>
@@ -200,7 +179,7 @@ export default function HomePage() {
 
         <section className="contact-section section-shell page-gutter" id="contact" aria-labelledby="contact-title">
           <div className="contact-inner mx-auto w-full">
-            <div className="section-topline"><span>07 — YOUR TURN</span><span>OPEN TO WHAT&apos;S NEXT</span></div>
+            <div className="section-topline"><span>06 — YOUR TURN</span><span>OPEN TO WHAT&apos;S NEXT</span></div>
             <Reveal className="contact-main">
               <span className="contact-orb" aria-hidden="true"><span>✳</span></span>
               <p className="section-kicker">HAVE A GOOD ONE IN MIND?</p>

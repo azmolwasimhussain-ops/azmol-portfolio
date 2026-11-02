@@ -63,6 +63,8 @@ function ContributionCalendar({ calendar }: { calendar: NonNullable<Activity["ca
 }
 
 function RepositoryList({ title, repositories, available }: { title: string; repositories: PublicRepository[]; available: boolean }) {
+  if (!available) return null;
+
   return (
     <div className="github-repository-group">
       <div className="github-subheading"><h3>{title}</h3><span>{String(repositories.length).padStart(2, "0")}</span></div>
@@ -85,7 +87,7 @@ function RepositoryList({ title, repositories, available }: { title: string; rep
           ))}
         </ul>
       ) : (
-        <p className="github-list-empty">{available ? "No repositories to show in this list." : "This repository list could not be loaded."}</p>
+        <p className="github-list-empty">{title === "Pinned projects" ? "No repositories are pinned on the profile right now." : "No public repositories to show right now."}</p>
       )}
     </div>
   );
@@ -125,7 +127,7 @@ export function GithubActivity() {
   return (
     <section className="github-section section-shell page-gutter" id="github-activity" aria-labelledby="github-title">
       <div className="section-inner mx-auto w-full">
-        <div className="section-topline"><span>04 — IN THE OPEN</span><span>LIVE PUBLIC GITHUB DATA</span></div>
+        <div className="section-topline"><span>03 — IN THE OPEN</span><span>PUBLIC GITHUB ACTIVITY</span></div>
         <div className="github-heading-row">
           <Reveal>
             <p className="section-kicker">A WORK IN PROGRESS, IN PUBLIC</p>
@@ -156,8 +158,14 @@ export function GithubActivity() {
               <p className="github-live-note">Fetched from public GitHub endpoints. This view may be temporarily incomplete if GitHub is unavailable.</p>
             </div>
             <aside className="github-repositories" aria-label="Public repositories">
-              <RepositoryList title="Pinned projects" repositories={activity.pinnedRepos} available={activity.sourceStatus.pinned && activity.sourceStatus.repositories} />
+              <RepositoryList title="Pinned projects" repositories={activity.pinnedRepos} available={activity.sourceStatus.pinned} />
               <RepositoryList title="Recently updated" repositories={activity.recentRepos} available={activity.sourceStatus.repositories} />
+              {(!activity.sourceStatus.pinned || !activity.sourceStatus.repositories) && (
+                <div className="github-repository-fallback">
+                  <p>Some repository details could not be refreshed. Browse the public profile for the latest list.</p>
+                  <a href="https://github.com/azmolwasimhussain-ops?tab=repositories" target="_blank" rel="noreferrer">Browse repositories <ArrowUpRight size={14} /></a>
+                </div>
+              )}
             </aside>
           </div>
         ) : (

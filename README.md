@@ -8,11 +8,10 @@ A dark editorial portfolio for Azmol Wasim Hussain, a frontend developer and Com
 
 - Preserves the dark editorial visual identity with serif accents, gold details, subtle grain, and Azmol's GitHub profile photograph.
 - Responsive portfolio sections for the introduction, background, projects, technical skills, public GitHub activity, open-source contributions, and contact.
-- A compact, editable “Currently building” section that links to the active portfolio repository.
 - Clickable toolkit technologies that highlight matching project cards, with a clear reset action.
 - Four source-backed project case studies at `/projects/terramind`, `/projects/studymate`, `/projects/nutriscan-ai`, and `/projects/plateprofit-ai`.
 - Real interface screenshots from the PlateProfit AI repository, optimized into WebP; other case-study art is labeled as illustration when source screenshots were not available.
-- GitHub activity from unauthenticated public endpoints: public repository count, pinned projects, recent updates, and the contribution calendar. The server caches responses for six hours; the page shows loading, empty, partial-data, and retry states.
+- GitHub activity from public endpoints: public repository count, pinned projects, recent updates, and the contribution calendar. Repository and profile pages provide a fallback when the unauthenticated REST API is rate-limited. The server caches responses for six hours; the page shows loading, empty, partial-data, and retry states.
 - Motion-aware hero entrances, parallax, and hover transitions with reduced-motion support.
 - Downloadable, one-page PDF résumé at `/azmol-wasim-hussain-resume.pdf`.
 - Responsive navigation, keyboard-operable mobile menu, skip links, semantic page structure, page metadata, and generated Open Graph and Twitter images.
@@ -89,7 +88,6 @@ components/
 data/
   case-studies.ts               # Verified project narratives and source links
   contributions.ts              # Merged pull-request details and links
-  currently-building.ts         # Editable current project, status, technologies, and link
   projects.ts                   # Typed portfolio project content
 public/
   azmol-wasim-hussain-resume.pdf

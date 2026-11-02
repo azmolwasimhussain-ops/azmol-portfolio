@@ -1,6 +1,4 @@
 import {
-  ArrowDown,
-  ArrowDownRight,
   ArrowRight,
   ArrowUpRight,
   Code2,
@@ -12,6 +10,9 @@ import { SiteNav } from "@/components/site-nav";
 import { HeroVisual } from "@/components/hero-visual";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
+import { HeroCopy } from "@/components/hero-copy";
+import { GithubActivity } from "@/components/github-activity";
+import { cntrlPullRequests, otherMergedContributions } from "@/data/contributions";
 import { projects } from "@/data/projects";
 
 const skillGroups = [
@@ -42,14 +43,7 @@ export default function HomePage() {
           <div className="hero-grid-wrap mx-auto w-full">
             <div className="hero-copy">
               <Reveal>
-                <p className="eyebrow"><span className="eyebrow-index">01 /</span> FRONTEND DEVELOPMENT <i /> APPLIED AI</p>
-                <h1 id="hero-title">I build <em>thoughtful</em><br className="desktop-break" /> digital experiences<span className="hero-period">.</span></h1>
-                <p className="hero-intro">I&apos;m Azmol Wasim Hussain — a Computer Science and Engineering student building clear, useful interfaces with React, TypeScript, and applied AI.</p>
-                <div className="hero-ctas">
-                  <a className="button button--primary" href="#work">Explore my work <ArrowDownRight size={16} /></a>
-                  <a className="button button--quiet" href="/azmol-wasim-hussain-resume.pdf" download>Download résumé <ArrowDown size={15} /></a>
-                </div>
-                <div className="hero-footnote"><span className="hero-footnote-line" /> CURIOUS BY DEFAULT. CAREFUL BY DESIGN.</div>
+                <HeroCopy />
               </Reveal>
             </div>
 
@@ -70,8 +64,8 @@ export default function HomePage() {
                 <div className="about-stamp" aria-hidden="true"><span>STAY<br />CURIOUS</span><i>✳</i></div>
               </Reveal>
               <Reveal className="about-story" delay={0.08}>
-                <p className="about-lead">I&apos;m studying Computer Science and Engineering at Newton School of Technology, with a focus on AI &amp; ML. Most days, that curiosity takes me toward the parts of a product people can feel: the interface, the details, and the moment an idea becomes useful.</p>
-                <p>My projects bring frontend craft together with applied AI — from a document-aware study companion to local-model tools and an interactive ocean-data concept. I&apos;m interested in thoughtful systems, expressive interfaces, and the small decisions that make technology easier to use.</p>
+                <p className="about-lead">I&apos;m a frontend developer and Computer Science and Engineering student at Newton School of Technology. I focus on modern web engineering with React, Next.js, and TypeScript; applied AI is a growing interest I bring into product work.</p>
+                <p>My projects bring interface craft together with practical engineering — from a document-aware study companion to a local-model nature app and an interactive ocean-data concept. I&apos;m interested in expressive interfaces, clear product flows, and the small decisions that make technology easier to use.</p>
                 <p>Alongside these projects, I&apos;ve contributed merged changes to Omnikon&apos;s CNTRL browser and collaborated on Karyalaya AI for HackDay 2026. Those experiences have made me value clear communication as much as clean code.</p>
                 <a className="text-link" href="https://www.linkedin.com/in/azmol-wasim-hussain-404778376/" target="_blank" rel="noreferrer">A little more on LinkedIn <ArrowUpRight size={14} /></a>
               </Reveal>
@@ -97,9 +91,11 @@ export default function HomePage() {
           </div>
         </section>
 
+        <GithubActivity />
+
         <section className="skills-section section-shell page-gutter" id="skills" aria-labelledby="skills-title">
           <div className="section-inner mx-auto w-full">
-            <div className="section-topline"><span>03 — TOOLKIT</span><span>LEARN BY MAKING</span></div>
+            <div className="section-topline"><span>04 — TOOLKIT</span><span>LEARN BY MAKING</span></div>
             <div className="skills-layout">
               <Reveal className="skills-heading">
                 <p className="section-kicker">TOOLS I REACH FOR</p>
@@ -120,7 +116,7 @@ export default function HomePage() {
 
         <section className="contribution-section section-shell page-gutter" id="contributions" aria-labelledby="contributions-title">
           <div className="section-inner mx-auto w-full">
-            <div className="section-topline"><span>04 — CONTRIBUTIONS</span><span>GOOD WORK IS SHARED WORK</span></div>
+            <div className="section-topline"><span>05 — CONTRIBUTIONS</span><span>GOOD WORK IS SHARED WORK</span></div>
             <div className="contribution-heading">
               <Reveal><p className="section-kicker">OPEN SOURCE &amp; COLLABORATION</p><h2 id="contributions-title">A few meaningful <em>merges.</em></h2></Reveal>
               <Reveal className="contribution-intro" delay={0.08}><p>Outside my own projects, I&apos;ve learned by stepping into larger codebases and helping a team move forward.</p></Reveal>
@@ -146,13 +142,37 @@ export default function HomePage() {
                 <span>OPEN TO LEARNING IN PUBLIC</span>
               </Reveal>
             </div>
+            <div className="contribution-prs">
+              <div className="contribution-prs-heading"><span>CNTRL · SIX MERGED PRS</span><span>OPEN SOURCE · TAURI / RUST / SOLIDJS</span></div>
+              <ul>
+                {cntrlPullRequests.map((pullRequest) => (
+                  <li key={pullRequest.number}>
+                    <a href={pullRequest.url} target="_blank" rel="noreferrer">
+                      <span className="contribution-pr-number">#{pullRequest.number}</span>
+                      <span className="contribution-pr-copy"><strong>{pullRequest.title}</strong><small>{pullRequest.contribution}</small><em>{pullRequest.stack}</em></span>
+                      <ArrowUpRight size={14} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="other-contributions">
+              <p className="section-kicker">OTHER VERIFIED MERGES</p>
+              <div>
+                {otherMergedContributions.map((contribution) => (
+                  <a href={contribution.url} target="_blank" rel="noreferrer" key={contribution.url}>
+                    <span>{contribution.repository}</span><strong>{contribution.title}</strong><small>{contribution.contribution}</small><em>{contribution.technologies}</em><ArrowUpRight size={14} />
+                  </a>
+                ))}
+              </div>
+            </div>
             <p className="achievement-footnote">Also submitted project write-ups to DEV challenges; those entries are participation, not awards.</p>
           </div>
         </section>
 
         <section className="contact-section section-shell page-gutter" id="contact" aria-labelledby="contact-title">
           <div className="contact-inner mx-auto w-full">
-            <div className="section-topline"><span>05 — YOUR TURN</span><span>OPEN TO WHAT&apos;S NEXT</span></div>
+            <div className="section-topline"><span>06 — YOUR TURN</span><span>OPEN TO WHAT&apos;S NEXT</span></div>
             <Reveal className="contact-main">
               <span className="contact-orb" aria-hidden="true"><span>✳</span></span>
               <p className="section-kicker">HAVE A GOOD ONE IN MIND?</p>

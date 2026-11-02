@@ -18,9 +18,9 @@ export function HeroVisual() {
     <motion.div
       ref={ref}
       className="hero-portrait-wrap"
-      initial={{ opacity: 1, y: 8 }}
+      initial={{ opacity: reduceMotion ? 1 : 0, y: reduceMotion ? 0 : 22 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: reduceMotion ? 0.2 : 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduceMotion ? 0 : 0.76, delay: reduceMotion ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
     >
       <motion.div className="hero-portrait-parallax" style={{ y: reduceMotion ? 0 : y }}>
         <div className="hero-orbit hero-orbit--outer" aria-hidden="true" />
@@ -39,8 +39,22 @@ export function HeroVisual() {
           <div className="portrait-gradient" />
           <div className="portrait-caption"><span>AZMOL WASIM HUSSAIN</span><span>BUILDING WITH INTENTION <MoveUpRight size={12} /></span></div>
         </div>
-        <div className="floating-badge floating-badge--top"><span className="badge-mark"><Sparkles size={15} /></span><span><small>EXPLORING</small><strong>AI, made useful</strong></span></div>
-        <div className="floating-badge floating-badge--bottom"><i /><span><small>MY TOOLKIT</small><strong>React · TypeScript</strong></span></div>
+        <motion.div
+          className="floating-badge floating-badge--top"
+          initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }}
+          animate={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: [0, -5, 0] }}
+          transition={{ opacity: { duration: 0.5, delay: 0.58 }, y: reduceMotion ? { duration: 0 } : { duration: 5.2, repeat: Infinity, ease: "easeInOut", delay: 0.7 } }}
+        >
+          <span className="badge-mark"><Sparkles size={15} /></span><span><small>EXPLORING</small><strong>AI, made useful</strong></span>
+        </motion.div>
+        <motion.div
+          className="floating-badge floating-badge--bottom"
+          initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }}
+          animate={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: [0, 5, 0] }}
+          transition={{ opacity: { duration: 0.5, delay: 0.78 }, y: reduceMotion ? { duration: 0 } : { duration: 6.1, repeat: Infinity, ease: "easeInOut", delay: 0.9 } }}
+        >
+          <i /><span><small>MY TOOLKIT</small><strong>React · TypeScript</strong></span>
+        </motion.div>
         <div className="hero-orbit-label">A STUDENT OF<br />THE DIGITAL WORLD</div>
       </motion.div>
     </motion.div>

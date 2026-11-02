@@ -12,6 +12,7 @@ import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
 import { HeroCopy } from "@/components/hero-copy";
 import { GithubActivity } from "@/components/github-activity";
+import { AchievementGallery } from "@/components/achievement-gallery";
 import { TechnologyFilterProvider, TechnologyFilterStatus, TechnologyPill } from "@/components/technology-filter";
 import { cntrlPullRequests, otherMergedContributions } from "@/data/contributions";
 import { projects } from "@/data/projects";
@@ -177,9 +178,11 @@ export default function HomePage() {
           </div>
         </section>
 
+        <AchievementGallery />
+
         <section className="contact-section section-shell page-gutter" id="contact" aria-labelledby="contact-title">
           <div className="contact-inner mx-auto w-full">
-            <div className="section-topline"><span>06 — YOUR TURN</span><span>OPEN TO WHAT&apos;S NEXT</span></div>
+            <div className="section-topline"><span>07 — YOUR TURN</span><span>OPEN TO WHAT&apos;S NEXT</span></div>
             <Reveal className="contact-main">
               <span className="contact-orb" aria-hidden="true"><span>✳</span></span>
               <p className="section-kicker">HAVE A GOOD ONE IN MIND?</p>

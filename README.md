@@ -7,7 +7,9 @@ A dark editorial portfolio for Azmol Wasim Hussain, a frontend developer and Com
 ## Features
 
 - Preserves the dark editorial visual identity with serif accents, gold details, subtle grain, and Azmol's GitHub profile photograph.
-- Responsive portfolio sections for the introduction, background, projects, technical skills, public GitHub activity, open-source contributions, and contact.
+- Responsive portfolio sections for the introduction, background, projects, technical skills, public GitHub activity, open-source contributions, achievements, and contact.
+- Filterable achievements gallery for verified merged pull requests, HackDay collaboration, Hacktoberfest 2026 certificates and sticker-book record, and LinkedIn-listed participation and learning credentials. Participation is labeled separately from awards.
+- Click-to-preview certificate and sticker-book images, with the original supplied PDF certificates available directly.
 - Clickable toolkit technologies that highlight matching project cards, with a clear reset action.
 - Four source-backed project case studies at `/projects/terramind`, `/projects/studymate`, `/projects/nutriscan-ai`, and `/projects/plateprofit-ai`.
 - Real interface screenshots from the PlateProfit AI repository, optimized into WebP; other case-study art is labeled as illustration when source screenshots were not available.
@@ -78,6 +80,7 @@ app/
   twitter-image.tsx             # Generated Twitter image
   page.tsx                      # Portfolio page composition
 components/
+  achievement-gallery.tsx     # Filterable milestone gallery and accessible image preview dialog
   github-activity.tsx           # Contribution calendar and public repositories
   hero-copy.tsx                 # Reduced-motion-aware hero text reveal
   hero-visual.tsx               # Profile photograph and animated visual
@@ -86,11 +89,13 @@ components/
   site-nav.tsx                  # Responsive and keyboard-aware navigation
   technology-filter.tsx         # Toolkit buttons and project highlighting state
 data/
+  achievements.ts             # Source-linked achievement and certificate records
   case-studies.ts               # Verified project narratives and source links
   contributions.ts              # Merged pull-request details and links
   projects.ts                   # Typed portfolio project content
 public/
   azmol-wasim-hussain-resume.pdf
+  assets/achievements/         # Original certificate PDFs, source sticker book, and optimized WebP previews
   projects/plateprofit/         # Optimized screenshots from the project repo
 ```
 

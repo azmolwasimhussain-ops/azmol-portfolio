@@ -10,7 +10,6 @@ export const achievementCategories = [
 export type AchievementCategory = (typeof achievementCategories)[number];
 export type AchievementIcon =
   | "Award"
-  | "BookOpen"
   | "Code2"
   | "Cpu"
   | "GraduationCap"
@@ -186,24 +185,6 @@ export const achievements: Achievement[] = [
     ],
   },
   {
-    id: "dev-hacktoberfest-submissions",
-    title: "Five DEV challenge submissions",
-    organization: "DEV Community · Hacktoberfest 2026",
-    date: "October 2026",
-    category: "Hackathons & Competitions",
-    description:
-      "Published project write-ups for the StudyMate Weekend Challenge and Hacktoberfest Open-Source AI challenge weeks. These are submissions and participation records; no prize win is claimed.",
-    evidence: "Published challenge submissions · not awards",
-    icon: "BookOpen",
-    links: [
-      { label: "StudyMate · Weekend Challenge", href: "https://dev.to/azmolwasimhussain/studymate-an-ai-study-partner-built-for-a-friend-3894" },
-      { label: "TerraMind · Week 1", href: "https://dev.to/azmolwasimhussain/terramind-your-offline-ai-nature-companion-4oh4" },
-      { label: "PlateProfit AI · Week 2", href: "https://dev.to/azmolwasimhussain/plateprofit-ai-turning-food-waste-into-profit-with-open-source-ai-5c9k" },
-      { label: "SlothScript · Week 3", href: "https://dev.to/azmolwasimhussain/slothscript-automating-my-code-reviews-locally-with-gemma-so-i-can-be-lazier-51c9" },
-      { label: "The Haunted Terminal · Week 4", href: "https://dev.to/azmolwasimhussain/the-haunted-terminal-when-local-open-source-ai-possesses-your-shell-igl" },
-    ],
-  },
-  {
     id: "hacktoberfest-2025-merge",
     title: "Community open-source merges",
     organization: "Hacktoberfest 2025 · FirstLeaf",
@@ -276,18 +257,6 @@ export const achievements: Achievement[] = [
       "Program certificate listed on Azmol's LinkedIn profile. Presented as a learning credential, not employment experience.",
     evidence: "LinkedIn-listed program certificate",
     icon: "GraduationCap",
-    links: [{ label: "LinkedIn profile", href: linkedin }],
-  },
-  {
-    id: "fundamentals-of-physics",
-    title: "Fundamental of Physics",
-    organization: "Newton School of Technology",
-    date: "Issued December 2025",
-    category: "Certifications & Learning",
-    description:
-      "Course certificate listed on Azmol's LinkedIn profile, with the course date shown as 28 August 2025.",
-    evidence: "LinkedIn-listed course certificate",
-    icon: "BookOpen",
     links: [{ label: "LinkedIn profile", href: linkedin }],
   },
   {

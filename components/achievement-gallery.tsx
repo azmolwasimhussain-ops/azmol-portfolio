@@ -4,7 +4,6 @@ import Image from "next/image";
 import {
   ArrowUpRight,
   Award,
-  BookOpen,
   Code2,
   Cpu,
   GraduationCap,
@@ -21,7 +20,6 @@ import { Reveal } from "@/components/reveal";
 
 const iconByName: Record<AchievementIcon, LucideIcon> = {
   Award,
-  BookOpen,
   Code2,
   Cpu,
   GraduationCap,

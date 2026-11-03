@@ -1,4 +1,5 @@
 import { ArrowDownRight, ArrowUpRight, BookOpen, Leaf, ScanLine, Waves } from "lucide-react";
+import Image from "next/image";
 import type { Project } from "@/data/projects";
 
 export function ProjectVisual({ project }: { project: Project }) {
@@ -62,15 +63,15 @@ export function ProjectVisual({ project }: { project: Project }) {
         </div>
       )}
       {project.visual === "plate" && (
-        <div className="plate-scene">
-          <div className="plate-topline"><span>MENU ECONOMICS</span><span>LOCAL / 01</span></div>
-          <div className="plate-card">
-            <span className="plate-label">MARGIN SNAPSHOT</span>
-            <div className="plate-value">A better<br /><em>read on cost.</em></div>
-            <div className="plate-chart"><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /></div>
-            <div className="plate-bottom"><span>INGREDIENTS</span><span>PRICE SCENARIOS <ArrowUpRight size={12} /></span></div>
-          </div>
-          <div className="plate-corner">P</div>
+        <div className="plate-screenshot">
+          <Image
+            className="plate-screenshot-image"
+            src="/projects/plateprofit/dashboard.webp"
+            alt=""
+            fill
+            sizes="(max-width: 760px) 90vw, (max-width: 1060px) 84vw, 55vw"
+          />
+          <span className="plate-screenshot-label"><i /> PLATEPROFIT AI <b>PRODUCT SCREEN · DASHBOARD</b></span>
         </div>
       )}
     </div>

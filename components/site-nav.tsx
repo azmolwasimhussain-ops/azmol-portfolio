@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const links = [
@@ -14,6 +14,7 @@ const links = [
 
 export function SiteNav() {
   const pathname = usePathname();
+  const { scrollYProgress } = useScroll();
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -90,6 +91,8 @@ export function SiteNav() {
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </nav>
+
+      <motion.span className="scroll-progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" />
 
       <AnimatePresence>
         {menuOpen && (

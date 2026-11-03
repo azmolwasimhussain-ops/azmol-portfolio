@@ -93,6 +93,33 @@ function RepositoryList({ title, repositories, available }: { title: string; rep
   );
 }
 
+function GithubLoading() {
+  return (
+    <div className="github-loading" aria-busy="true" role="status">
+      <span className="sr-only">Loading public GitHub activity…</span>
+      <div className="github-loading-main" aria-hidden="true">
+        <div className="github-loading-stats">
+          <div><span className="github-skeleton github-skeleton--value" /><span className="github-skeleton github-skeleton--label" /></div>
+          <div><span className="github-skeleton github-skeleton--value" /><span className="github-skeleton github-skeleton--label" /></div>
+          <span className="github-skeleton github-skeleton--link" />
+        </div>
+        <div className="github-loading-calendar">
+          {Array.from({ length: 196 }, (_, index) => <i className="github-skeleton" key={index} />)}
+        </div>
+        <div className="github-skeleton github-skeleton--note" />
+      </div>
+      <div className="github-loading-repositories" aria-hidden="true">
+        {[0, 1].map((group) => (
+          <div className="github-loading-group" key={group}>
+            <span className="github-skeleton github-skeleton--heading" />
+            {Array.from({ length: 3 }, (_, index) => <span className="github-skeleton github-skeleton--repo" key={index} />)}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function GithubActivity() {
   const [activity, setActivity] = useState<Activity | null>(null);
   const [loading, setLoading] = useState(true);
@@ -140,9 +167,7 @@ export function GithubActivity() {
         </div>
 
         {loading ? (
-          <div className="github-loading" aria-busy="true" aria-label="Loading public GitHub activity" role="status">
-            <span /><span /><span />
-          </div>
+          <GithubLoading />
         ) : hasContent && activity ? (
           <div className="github-activity-layout">
             <div className="github-activity-main">

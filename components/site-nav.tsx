@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
@@ -11,6 +11,25 @@ const links = [
   { label: "Achievements", href: "#achievements", id: "achievements" },
   { label: "Contact", href: "#contact", id: "contact" },
 ];
+
+type PendingNavigation = { id: string; activationY: number; direction: 1 | -1 };
+
+function getPendingNavigation(id: string): PendingNavigation | null {
+  const section = document.getElementById(id);
+  if (!section) return null;
+
+  const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+  const scrollPaddingTop = Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+  const destinationY = Math.max(0, sectionTop - scrollPaddingTop);
+  if (Math.abs(window.scrollY - destinationY) < 48) return null;
+
+  const direction = destinationY > window.scrollY ? 1 : -1;
+  const activationY = direction === 1
+    ? sectionTop - window.innerHeight * 0.3
+    : sectionTop + section.offsetHeight - window.innerHeight * 0.3;
+
+  return { id, activationY, direction };
+}
 
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/azmolwasimhussain-ops", icon: "github" },
@@ -61,15 +80,39 @@ export function SiteNav() {
   const { scrollYProgress } = useScroll();
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const pendingNavigation = useRef<PendingNavigation | null>(null);
+
+  const activateNavigationTarget = useCallback((id: string) => {
+    setActive(id);
+    pendingNavigation.current = getPendingNavigation(id);
+  }, []);
 
   useEffect(() => {
     if (pathname !== "/") return;
+    const initialHash = window.location.hash.slice(1);
+    const initialNavLink = links.find((link) => link.id === initialHash);
+    pendingNavigation.current = null;
+    if (initialNavLink) pendingNavigation.current = getPendingNavigation(initialNavLink.id);
     const sections = ["home", ...links.map((link) => link.id)]
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => Boolean(section));
 
     const observer = new IntersectionObserver(
       (entries) => {
+        const pending = pendingNavigation.current;
+        if (pending) {
+          const hasReachedTarget = pending.direction === 1
+            ? window.scrollY >= pending.activationY
+            : window.scrollY <= pending.activationY;
+          const targetIsInActiveRegion = entries.some((entry) => entry.target.id === pending.id && entry.isIntersecting);
+          if (!hasReachedTarget || !targetIsInActiveRegion) {
+            setActive(pending.id);
+            return;
+          }
+          pendingNavigation.current = null;
+          setActive(pending.id);
+          return;
+        }
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -78,9 +121,38 @@ export function SiteNav() {
       { rootMargin: "-24% 0px -64% 0px", threshold: [0, 0.15, 0.35, 0.6] },
     );
 
+    const syncPendingTarget = () => {
+      const pending = pendingNavigation.current;
+      if (!pending) return;
+      const hasReachedTarget = pending.direction === 1
+        ? window.scrollY >= pending.activationY
+        : window.scrollY <= pending.activationY;
+      if (hasReachedTarget) setActive(pending.id);
+    };
+
+    const cancelPendingTarget = () => {
+      pendingNavigation.current = null;
+    };
+
+    const cancelPendingTargetOnKey = (event: KeyboardEvent) => {
+      if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) {
+        cancelPendingTarget();
+      }
+    };
+
     sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, [pathname]);
+    window.addEventListener("scroll", syncPendingTarget, { passive: true });
+    window.addEventListener("wheel", cancelPendingTarget, { passive: true });
+    window.addEventListener("touchstart", cancelPendingTarget, { passive: true });
+    window.addEventListener("keydown", cancelPendingTargetOnKey);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", syncPendingTarget);
+      window.removeEventListener("wheel", cancelPendingTarget);
+      window.removeEventListener("touchstart", cancelPendingTarget);
+      window.removeEventListener("keydown", cancelPendingTargetOnKey);
+    };
+  }, [activateNavigationTarget, pathname]);
 
   useEffect(() => {
     document.body.classList.toggle("menu-is-open", menuOpen);
@@ -111,10 +183,9 @@ export function SiteNav() {
               href={pathname === "/" ? link.href : `/${link.href}`}
               aria-current={active === link.id ? "location" : undefined}
               key={link.id}
-              onClick={() => setActive(link.id)}
+              onClick={() => activateNavigationTarget(link.id)}
             >
               {link.label}
-              {active === link.id && <motion.span className="nav-active-line" layoutId="nav-active-line" />}
             </a>
           ))}
         </div>
@@ -150,7 +221,7 @@ export function SiteNav() {
             transition={{ duration: 0.18 }}
           >
             {links.map((link, index) => (
-              <a href={pathname === "/" ? link.href : `/${link.href}`} key={link.id} onClick={() => { setActive(link.id); setMenuOpen(false); }}>
+              <a href={pathname === "/" ? link.href : `/${link.href}`} key={link.id} onClick={() => { activateNavigationTarget(link.id); setMenuOpen(false); }}>
                 <span>0{index + 1}</span>{link.label}<ArrowUpRight size={16} />
               </a>
             ))}
